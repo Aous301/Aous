@@ -1,0 +1,287 @@
+<!DOCTYPE html>  <html lang="en">  
+<head>  
+<meta charset="UTF-8">  
+<meta name="viewport" content="width=device-width, initial-scale=1.0">  
+<title>Do you like Aous?</title>  
+<link rel="preconnect" href="https://fonts.googleapis.com">  
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Caveat:wght@600;700&display=swap" rel="stylesheet">  
+<style>  
+  :root{  
+    --cream: #fff3ee;  
+    --blush: #ffd6e0;  
+    --rose: #ff6f91;  
+    --plum: #5b2a4d;  
+    --gold: #ffb84d;  
+    --mint: #8fd8c7;  
+  }  *{ box-sizing:border-box; }
+
+html,body{
+margin:0; padding:0; height:100%;
+font-family:'Baloo 2', sans-serif;
+overflow:hidden;
+background: radial-gradient(circle at 30% 20%, var(--blush), var(--cream) 60%);
+color: var(--plum);
+}
+
+@media (prefers-reduced-motion: reduce){
+*{ animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}
+
+/* ---------- SCREEN 1 ---------- */
+#screen1{
+position:relative;
+width:100%; height:100vh;
+display:flex; flex-direction:column; align-items:center; justify-content:center;
+text-align:center; padding:24px;
+}
+
+.eyebrow{
+font-family:'Caveat', cursive;
+font-size:clamp(1.2rem, 3vw, 1.8rem);
+color: var(--rose);
+margin-bottom:-6px;
+font-weight:700;
+}
+
+h1#question{
+font-size:clamp(1.9rem, 6vw, 3.4rem);
+font-weight:800;
+margin:8px 0 42px;
+color: var(--plum);
+text-shadow: 3px 3px 0 var(--gold);
+max-width: 20ch;
+line-height:1.15;
+}
+
+.btn-row{
+position:relative;
+display:flex;
+gap:28px;
+align-items:center;
+justify-content:center;
+width:min(560px, 90vw);
+height:120px;
+}
+
+button{
+font-family:'Baloo 2', sans-serif;
+font-weight:700;
+font-size:1.3rem;
+border:none;
+border-radius:100px;
+padding:16px 44px;
+cursor:pointer;
+box-shadow: 0 6px 0 rgba(0,0,0,0.12);
+transition: transform .12s ease;
+}
+button:active{ transform: translateY(3px); box-shadow: 0 3px 0 rgba(0,0,0,0.12); }
+
+#yesBtn{
+background: var(--mint);
+color: #06403a;
+transition: transform .25s cubic-bezier(.34,1.56,.64,1), box-shadow .25s;
+}
+#yesBtn.grown{ transform: scale(1.15); }
+
+#noBtn{
+background: var(--rose);
+color: #fff;
+position: absolute;
+left: 50%;
+top: 50%;
+transform: translate(-50%,-50%);
+transition: left .25s ease, top .25s ease, transform .25s ease, font-size .25s ease, padding .25s ease, opacity .25s ease;
+white-space:nowrap;
+}
+/* start position: to the right of yes button, computed via JS transform offset */
+
+#toast{
+position: fixed;
+bottom: 40px;
+left: 50%;
+transform: translateX(-50%) translateY(20px);
+background: var(--plum);
+color: #fff;
+padding: 12px 26px;
+border-radius: 100px;
+font-weight:700;
+font-size: 1rem;
+opacity: 0;
+pointer-events:none;
+transition: opacity .25s ease, transform .25s ease;
+box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+#toast.show{ opacity:1; transform: translateX(-50%) translateY(0); }
+
+.hint{
+margin-top:34px;
+font-family:'Caveat', cursive;
+font-size:1.15rem;
+color:#8a6b7c;
+opacity:.85;
+}
+
+/* ---------- SCREEN 2 ---------- */
+#screen2{
+position:fixed;
+inset:0;
+display:none;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+text-align:center;
+background: radial-gradient(circle at 50% 0%, #ffe3ec, var(--cream) 65%);
+overflow:hidden;
+}
+#screen2.active{ display:flex; }
+
+#letters{
+display:flex;
+gap: clamp(4px, 1.4vw, 14px);
+font-weight:800;
+font-size: clamp(2rem, 8vw, 5.2rem);
+color: var(--rose);
+text-shadow: 3px 3px 0 var(--gold);
+margin-bottom: 28px;
+min-height: 1.3em;
+}
+#letters span{
+display:inline-block;
+opacity:0;
+transform: translateY(-140vh) rotate(-20deg);
+animation: dropIn .75s cubic-bezier(.22,1.4,.4,1) forwards;
+}
+@keyframes dropIn{
+0%{ opacity:0; transform: translateY(-140vh) rotate(-25deg); }
+70%{ opacity:1; }
+85%{ transform: translateY(8px) rotate(4deg); }
+100%{ opacity:1; transform: translateY(0) rotate(0deg); }
+}
+[02/08/2026 02:32 ص] Aous Abazeed: #message{
+font-family:'Caveat', cursive;
+font-weight:700;
+font-size: clamp(1.5rem, 5vw, 2.6rem);
+color: var(--plum);
+max-width: 26ch;
+opacity:0;
+transition: opacity .8s ease, transform .8s ease;
+transform: translateY(14px);
+}
+#message.show{ opacity:1; transform:translateY(0); }
+
+.hearts{
+position:absolute; inset:0; pointer-events:none;
+}
+.heart{
+position:absolute;
+bottom:-10%;
+font-size: 1.6rem;
+opacity:.85;
+animation: floatUp linear forwards;
+}
+@keyframes floatUp{
+to{ transform: translateY(-115vh) rotate(360deg); opacity:0; }
+}
+</style>
+
+</head>  
+<body>    <div id="screen1">  
+    <div class="eyebrow">a very important question</div>  
+    <h1 id="question">Do you like Aous? 🤔</h1>  <div class="btn-row" id="btnRow">  
+  <button id="yesBtn">Yes 💚</button>  
+  <button id="noBtn">No</button>  
+</div>  
+
+<div class="hint">psst… there's only one honest answer here 👀</div>
+
+  </div>    <div id="toast">don't lie 🙅‍♂️</div>    <div id="screen2">  
+    <div id="letters"></div>  
+    <div id="message"> love you too Basonty 🫂❤️‍🩹</div>  
+    <div class="hearts" id="heartsLayer"></div>  
+  </div>  <script>  
+  const yesBtn = document.getElementById('yesBtn');  
+  const noBtn = document.getElementById('noBtn');  
+  const btnRow = document.getElementById('btnRow');  
+  const toast = document.getElementById('toast');  
+  const screen1 = document.getElementById('screen1');  
+  const screen2 = document.getElementById('screen2');  
+  const lettersEl = document.getElementById('letters');  
+  const messageEl = document.getElementById('message');  
+  const heartsLayer = document.getElementById('heartsLayer');  
+  
+  let noScale = 1;  
+  let toastTimer = null;  
+  
+  function showToast(){  
+    toast.classList.add('show');  
+    clearTimeout(toastTimer);  
+    toastTimer = setTimeout(() => toast.classList.remove('show'), 1400);  
+  }  
+  
+  function dodge(){  
+    const rowRect = btnRow.getBoundingClientRect();  
+    const btnRect = noBtn.getBoundingClientRect();  
+  
+    // shrink a bit each time, down to a floor  
+    noScale = Math.max(noScale * 0.82, 0.35);  
+  
+    const maxX = rowRect.width - btnRect.width * noScale;  
+    const maxY = rowRect.height - btnRect.height * noScale;  
+  
+    const randX = Math.random() * Math.max(maxX, 40) - Math.max(maxX, 40) / 2;  
+    const randY = Math.random() * Math.max(maxY, 20) - Math.max(maxY, 20) / 2;  
+  
+    noBtn.style.left = calc(50% + ${randX}px);  
+    noBtn.style.top = calc(50% + ${randY}px);  
+    noBtn.style.transform = translate(-50%,-50%) scale(${noScale});  
+  
+    yesBtn.classList.add('grown');  
+    showToast();  
+  }  
+  
+  noBtn.addEventListener('mouseenter', dodge);  
+  noBtn.addEventListener('click', (e) => {  
+    e.preventDefault();  
+    dodge();  
+  });  
+  noBtn.addEventListener('touchstart', (e) => {  
+    e.preventDefault();  
+    dodge();  
+  }, { passive:false });  
+  
+  function spawnHearts(){  
+    const emojis = ['❤️','💛','💚','💙','💜','🫂'];  
+    for(let i=0;i<26;i++){  
+      const h = document.createElement('div');  
+      h.className = 'heart';  
+      h.textContent = emojis[Math.floor(Math.random()*emojis.length)];  
+      h.style.left = Math.random()*100 + '%';  
+      h.style.fontSize = (1 + Math.random()*1.8) + 'rem';  
+      h.style.animationDuration = (4 + Math.random()*4) + 's';  
+      h.style.animationDelay = (Math.random()*3) + 's';  
+      heartsLayer.appendChild(h);  
+    }  
+  }  
+  
+  function revealYes(){  
+    screen1.style.display = 'none';  
+    screen2.classList.add('active');  
+  
+    const phrase = "I LOVE YOU";  
+    lettersEl.innerHTML = '';  
+    [...phrase].forEach((ch, i) => {  
+      const span = document.createElement('span');  
+      span.textContent = ch === ' ' ? '\u00A0' : ch;  
+      span.style.animationDelay = (i * 0.09) + 's';
+      lettersEl.appendChild(span);  
+    });  
+  
+    spawnHearts();  
+  
+    const totalDropTime = phrase.length * 90 + 750;  
+    setTimeout(() => messageEl.classList.add('show'), totalDropTime);  
+  }  
+  
+  yesBtn.addEventListener('click', revealYes);  
+</script>  </body>  
+</html>
