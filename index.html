@@ -228,8 +228,8 @@ to{ transform: translateY(-115vh) rotate(360deg); opacity:0; }
     const maxX = rowRect.width - btnRect.width * noScale;  
     const maxY = rowRect.height - btnRect.height * noScale;  
   
-    const randX = Math.random() * Math.max(maxX, 40) - Math.max(maxX, 40) / 2;  
-    const randY = Math.random() * Math.max(maxY, 20) - Math.max(maxY, 20) / 2;  
+    const randX = (Math.random() - 0.5)*500;  
+    const randY = (Math.random() - 0.5)*400;  
   
     noBtn.style.left = 'calc(50% + ${randX}px)';
     noBtn.style.top = 'calc(50% + ${randY}px)';
